@@ -1,15 +1,12 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.models.Profile;
-import com.niiazov.usermanagement.models.User;
 import com.niiazov.usermanagement.repositories.ProfileRepository;
 import com.niiazov.usermanagement.util.ProfileNotFoundException;
-import com.niiazov.usermanagement.util.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service

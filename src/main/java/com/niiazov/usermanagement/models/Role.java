@@ -1,7 +1,6 @@
 package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDateTime;

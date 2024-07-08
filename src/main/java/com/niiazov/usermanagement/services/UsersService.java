@@ -1,6 +1,5 @@
 package com.niiazov.usermanagement.services;
 
-import com.niiazov.usermanagement.enums.Status;
 import com.niiazov.usermanagement.models.User;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import com.niiazov.usermanagement.util.UserNotFoundException;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
