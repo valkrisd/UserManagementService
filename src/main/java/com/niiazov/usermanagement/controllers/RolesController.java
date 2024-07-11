@@ -1,7 +1,6 @@
 package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.RoleDTO;
-import com.niiazov.usermanagement.mappers.RoleMapper;
 import com.niiazov.usermanagement.services.RolesService;
 import com.niiazov.usermanagement.util.ErrorsUtil;
 import com.niiazov.usermanagement.util.ResourceNotUpdatedException;
@@ -18,12 +17,9 @@ import java.util.Set;
 @RequestMapping("/users/{userId}/roles")
 public class RolesController {
     private final RolesService rolesService;
-    private final RoleMapper roleMapper;
-
     @Autowired
-    public RolesController(RolesService rolesService, RoleMapper roleMapper) {
+    public RolesController(RolesService rolesService) {
         this.rolesService = rolesService;
-        this.roleMapper = roleMapper;
     }
 
     // Назначает новую роль или обновляет существующие роли для указанного пользователя.
@@ -44,13 +40,15 @@ public class RolesController {
     @GetMapping
     public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Long userId) {
 
-        return null;
+        return rolesService.getUserRoles(userId);
     }
 
     // Удаляет указанную роль у пользователя
     @DeleteMapping("/{roleId}")
     public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable Long userId, @PathVariable Long roleId) {
-        return null;
+
+        rolesService.deleteUserRole(userId, roleId);
+        return ResponseEntity.ok().build();
     }
 
 
