@@ -2,7 +2,9 @@ package com.niiazov.usermanagement.models;
 
 import com.niiazov.usermanagement.enums.Status;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -10,7 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class User {
     @Id
     @Column(name = "id")

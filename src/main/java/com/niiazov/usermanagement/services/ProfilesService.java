@@ -4,23 +4,18 @@ import com.niiazov.usermanagement.dto.ProfileDTO;
 import com.niiazov.usermanagement.mappers.ProfileMapper;
 import com.niiazov.usermanagement.models.Profile;
 import com.niiazov.usermanagement.repositories.ProfileRepository;
-import com.niiazov.usermanagement.util.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ProfilesService {
 
     private final ProfileRepository profileRepository;
 
     private final ProfileMapper profileMapper;
-
-    @Autowired
-    public ProfilesService(ProfileRepository profileRepository, ProfileMapper profileMapper) {
-        this.profileRepository = profileRepository;
-        this.profileMapper = profileMapper;
-    }
 
     public Profile findProfile(Long userId) {
 

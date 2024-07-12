@@ -5,7 +5,9 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
-// Утилитарный класс для форматирования сообщений об ошибке во что-то более понятное
+/**
+ * @author Vladislav Niiazov
+ */
 public class ErrorsUtil {
     public static String getErrorMessage(BindingResult bindingResult) {
 

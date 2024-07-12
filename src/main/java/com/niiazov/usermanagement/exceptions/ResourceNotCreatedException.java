@@ -1,4 +1,4 @@
-package com.niiazov.usermanagement.util;
+package com.niiazov.usermanagement.exceptions;
 
 public class ResourceNotCreatedException extends RuntimeException {
     public ResourceNotCreatedException(String errorMsg) {

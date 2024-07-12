@@ -1,7 +1,9 @@
 package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -9,7 +11,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role")
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

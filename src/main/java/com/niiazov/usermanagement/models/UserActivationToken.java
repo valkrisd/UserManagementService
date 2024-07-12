@@ -2,13 +2,17 @@ package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_activation_token")
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class UserActivationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

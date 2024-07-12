@@ -1,4 +1,4 @@
-package com.niiazov.usermanagement.util;
+package com.niiazov.usermanagement.exceptions;
 
 public class ResourceNotUpdatedException extends RuntimeException {
     public ResourceNotUpdatedException(String errorMsg) {

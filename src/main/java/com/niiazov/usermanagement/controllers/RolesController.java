@@ -3,9 +3,9 @@ package com.niiazov.usermanagement.controllers;
 import com.niiazov.usermanagement.dto.RoleDTO;
 import com.niiazov.usermanagement.services.RolesService;
 import com.niiazov.usermanagement.util.ErrorsUtil;
-import com.niiazov.usermanagement.util.ResourceNotUpdatedException;
+import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,17 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/users/{userId}/roles")
+@RequestMapping("/users")
+@RequiredArgsConstructor
+
 public class RolesController {
     private final RolesService rolesService;
-    @Autowired
-    public RolesController(RolesService rolesService) {
-        this.rolesService = rolesService;
-    }
 
-    // Назначает новую роль или обновляет существующие роли для указанного пользователя.
-    @PostMapping
-    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Long userId, @RequestBody @Valid Set<RoleDTO> roleDTOs, BindingResult bindingResult) {
+    @PostMapping("/{userId}/roles")
+    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Long userId,
+                                                      @RequestBody @Valid Set<RoleDTO> roleDTOs,
+                                                      BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             String errorMsg = ErrorsUtil.getErrorMessage(bindingResult);
@@ -36,16 +35,16 @@ public class RolesController {
 
     }
 
-    // Возвращает список всех ролей, назначенных указанному пользователю
-    @GetMapping
+    @GetMapping("/{userId}/roles")
     public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Long userId) {
 
         return rolesService.getUserRoles(userId);
     }
 
-    // Удаляет указанную роль у пользователя
-    @DeleteMapping("/{roleId}")
-    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable Long userId, @PathVariable Long roleId) {
+
+    @DeleteMapping("/{userId}/roles/{roleId}")
+    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable Long userId,
+                                                     @PathVariable Long roleId) {
 
         rolesService.deleteUserRole(userId, roleId);
         return ResponseEntity.ok().build();

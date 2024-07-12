@@ -1,13 +1,17 @@
 package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "profile")
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class Profile {
 
     @Id
