@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,18 +25,20 @@ public class UsersService {
         userRepository.save(user);
     }
 
-    public User findUser(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+    public UserDTO findUser(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            return userMapper.userToUserDTO(user.get());
+        } else throw new ResourceNotFoundException("User with id " + userId + " not found");
     }
 
     @Transactional
     public void updateUser(Long userId, UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
-
-        User userToUpdate = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+        User userToUpdate = userRepository.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException("User with id " + userId + " not found"));
 
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setEmail(user.getEmail());
@@ -48,8 +51,8 @@ public class UsersService {
     @Transactional
     public void deleteUser(Long userId) {
 
-        User userToDelete = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+        User userToDelete = userRepository.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException("User with id " + userId + " not found"));
         userRepository.delete(userToDelete);
     }
 }

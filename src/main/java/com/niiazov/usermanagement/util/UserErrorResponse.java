@@ -1,11 +1,11 @@
-package com.niiazov.usermanagement.exceptions;
+package com.niiazov.usermanagement.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Утилитарный класс для формирования JSON-ответа при ошибках валидации
+ * Утилитарный класс для формирования объекта (JSON-ответа) при ошибках валидации
  */
 @AllArgsConstructor
 @Getter

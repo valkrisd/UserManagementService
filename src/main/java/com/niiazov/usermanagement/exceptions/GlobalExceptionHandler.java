@@ -1,5 +1,6 @@
 package com.niiazov.usermanagement.exceptions;
 
+import com.niiazov.usermanagement.util.UserErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

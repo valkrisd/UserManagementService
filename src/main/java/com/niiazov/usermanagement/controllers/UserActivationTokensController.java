@@ -2,7 +2,6 @@ package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.services.UserActivationTokensService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +30,5 @@ public class UserActivationTokensController {
         userActivationTokensService.activateUser();
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 }
