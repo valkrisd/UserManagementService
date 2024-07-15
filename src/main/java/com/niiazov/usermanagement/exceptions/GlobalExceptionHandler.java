@@ -35,6 +35,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ActivationException.class)
+    public ResponseEntity<UserErrorResponse> handleResourceNotFoundException(ActivationException ex) {
+        UserErrorResponse errorResponse = new UserErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception ex) {
         UserErrorResponse errorResponse = new UserErrorResponse(

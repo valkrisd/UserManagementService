@@ -1,7 +1,6 @@
 package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,6 @@ public class UserActivationToken {
     private Integer id;
 
     @Column(nullable = false)
-    @Size(max = 255, message = "Token must be less than 255 characters")
     private String token;
 
     @Column(name = "expiration_time", nullable = false)

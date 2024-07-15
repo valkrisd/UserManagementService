@@ -1,13 +1,11 @@
 package com.niiazov.usermanagement.controllers;
 
+import com.niiazov.usermanagement.dto.UserActivationTokenDTO;
 import com.niiazov.usermanagement.services.UserActivationTokensService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -25,9 +23,9 @@ public class UserActivationTokensController {
     }
 
     @PostMapping("/activate")
-    public ResponseEntity<HttpStatus> activateUser() {
+    public ResponseEntity<HttpStatus> activateUser(@RequestBody UserActivationTokenDTO userActivationTokenDTO) {
 
-        userActivationTokensService.activateUser();
+        userActivationTokensService.activateUser(userActivationTokenDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

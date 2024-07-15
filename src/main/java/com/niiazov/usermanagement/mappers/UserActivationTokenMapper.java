@@ -1,14 +1,13 @@
 package com.niiazov.usermanagement.mappers;
 
-import org.mapstruct.Mapper;
-
 import com.niiazov.usermanagement.dto.UserActivationTokenDTO;
 import com.niiazov.usermanagement.models.UserActivationToken;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-@Mapper
+@Mapper(componentModel = "spring")
+
 public interface UserActivationTokenMapper {
+
 
     UserActivationTokenDTO toDTO(UserActivationToken userActivationToken);
 
