@@ -17,14 +17,14 @@ public class ProfilesService {
 
     private final ProfileMapper profileMapper;
 
-    public Profile findProfile(Long userId) {
+    public Profile findProfile(Integer userId) {
 
         return profileRepository.findByUser_Id(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profile with user_id " + userId + " not found"));
     }
 
     @Transactional
-    public void updateProfile(Long userId, ProfileDTO profileDTO) {
+    public void updateProfile(Integer userId, ProfileDTO profileDTO) {
         Profile profile = profileMapper.profileDTOToProfile(profileDTO);
 
         Profile profileToUpdate = profileRepository.findByUser_Id(userId)

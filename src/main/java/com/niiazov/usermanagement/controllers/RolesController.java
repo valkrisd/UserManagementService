@@ -22,7 +22,7 @@ public class RolesController {
     private final RolesService rolesService;
 
     @PostMapping("/{userId}/roles")
-    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Long userId, @RequestBody @Valid Set<RoleDTO> roleDTOs, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Integer userId, @RequestBody @Valid Set<RoleDTO> roleDTOs, BindingResult bindingResult) {
         log.info("Запрос на обновление ролей пользователя с id: {}", userId);
         if (bindingResult.hasErrors()) {
             String errorMsg = ErrorsUtil.getErrorMessage(bindingResult);
@@ -36,7 +36,7 @@ public class RolesController {
     }
 
     @GetMapping("/{userId}/roles")
-    public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Long userId) {
+    public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Integer userId) {
         log.info("Запрос ролей для пользователя с id: {}", userId);
         ResponseEntity<Set<RoleDTO>> roleDTOs = rolesService.getUserRoles(userId);
         log.debug("Роли для пользователя с id: {} успешно получены", userId);
@@ -44,7 +44,7 @@ public class RolesController {
     }
 
     @DeleteMapping("/{userId}/roles/{roleId}")
-    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable Long userId, @PathVariable Long roleId) {
+    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable Integer userId, @PathVariable Integer roleId) {
         log.info("Запрос на удаление роли с id: {} у пользователя с id: {}", roleId, userId);
         rolesService.deleteUserRole(userId, roleId);
         log.debug("Роль с id: {} удалена у пользователя с id: {}", roleId, userId);

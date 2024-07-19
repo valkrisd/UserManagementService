@@ -38,7 +38,7 @@ public class RolesService {
      */
 
     @Transactional
-    public void updateUserRoles(Long userId, Set<RoleDTO> roleDTOs) {
+    public void updateUserRoles(Integer userId, Set<RoleDTO> roleDTOs) {
 
         User userToUpdate = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
@@ -68,7 +68,7 @@ public class RolesService {
         userRepository.save(userToUpdate);
     }
 
-    public ResponseEntity<Set<RoleDTO>> getUserRoles(Long userId) {
+    public ResponseEntity<Set<RoleDTO>> getUserRoles(Integer userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
@@ -79,7 +79,7 @@ public class RolesService {
     }
 
     @Transactional
-    public void deleteUserRole(Long userId, Long roleId) {
+    public void deleteUserRole(Integer userId, Integer roleId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 

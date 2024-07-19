@@ -18,7 +18,7 @@ public class UserActivationTokensController {
     private final UserActivationTokensService userActivationTokensService;
 
     @PostMapping("/{userId}/activation-token")
-    public ResponseEntity<HttpStatus> generateUserActivationToken(@PathVariable Long userId) {
+    public ResponseEntity<HttpStatus> generateUserActivationToken(@PathVariable Integer userId) {
         log.info("Попытка генерации токена активации для пользователя с ID: {}", userId);
         userActivationTokensService.generateUserActivationToken(userId);
         log.info("Токен активации успешно сгенерирован для пользователя с ID: {}", userId);

@@ -30,7 +30,7 @@ public class UserActivationTokensService {
     private String EMAIL_FROM = "noreply@course-space.com";
 
     @Transactional
-    public void generateUserActivationToken(Long userId) {
+    public void generateUserActivationToken(Integer userId) {
 
         User userToUpdate = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));

@@ -24,7 +24,7 @@ public class ProfilesController {
     private final ProfileMapper profileMapper;
 
     @GetMapping("/{userId}/profiles")
-    public ResponseEntity<ProfileDTO> getProfile(@PathVariable Long userId) {
+    public ResponseEntity<ProfileDTO> getProfile(@PathVariable Integer userId) {
         log.info("Запрос профиля для пользователя с id: {}", userId);
         Profile profile = profilesService.findProfile(userId);
         log.debug("Профиль для пользователя с id: {} успешно извлечен", userId);
@@ -32,7 +32,7 @@ public class ProfilesController {
     }
 
     @PutMapping("/{userId}/profiles")
-    public ResponseEntity<HttpStatus> updateProfile(@PathVariable Long userId, @RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateProfile(@PathVariable Integer userId, @RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
         log.info("Запрос на обновление профиля для пользователя с id: {}", userId);
         if (bindingResult.hasErrors()) {
             String errorMsg = ErrorsUtil.getErrorMessage(bindingResult);

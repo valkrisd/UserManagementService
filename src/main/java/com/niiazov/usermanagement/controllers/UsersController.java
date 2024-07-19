@@ -52,7 +52,7 @@ public class UsersController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable Integer userId) {
         log.info("Запрос данных пользователя с id: {}", userId);
         UserDTO userDTO = usersService.findUser(userId);
         log.info("Пользователь с id: {} успешно найден", userId);
@@ -60,7 +60,7 @@ public class UsersController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long userId,
+    public ResponseEntity<HttpStatus> updateUser(@PathVariable Integer userId,
                                                  @RequestBody @Valid UserDTO userDTO,
                                                  BindingResult bindingResult) {
         log.info("Обновление данных пользователя с id: {}", userId);
@@ -76,7 +76,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Integer userId) {
         log.info("Удаление пользователя с id: {}", userId);
         usersService.deleteUser(userId);
         log.info("Пользователь с id: {} успешно удален", userId);
