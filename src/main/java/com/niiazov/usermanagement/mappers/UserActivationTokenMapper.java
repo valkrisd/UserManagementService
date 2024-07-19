@@ -5,9 +5,7 @@ import com.niiazov.usermanagement.models.UserActivationToken;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-
 public interface UserActivationTokenMapper {
-
 
     UserActivationTokenDTO toDTO(UserActivationToken userActivationToken);
 

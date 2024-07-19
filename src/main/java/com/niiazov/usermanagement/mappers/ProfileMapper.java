@@ -6,8 +6,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
-    ProfileDTO profileToProfileDTO(Profile entity);
 
+    ProfileDTO profileToProfileDTO(Profile entity);
 
     Profile profileDTOToProfile(ProfileDTO dto);
 }

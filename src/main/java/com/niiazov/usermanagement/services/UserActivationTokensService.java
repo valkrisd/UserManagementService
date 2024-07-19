@@ -9,6 +9,7 @@ import com.niiazov.usermanagement.models.UserActivationToken;
 import com.niiazov.usermanagement.repositories.UserActivationTokenRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,9 @@ public class UserActivationTokensService {
     private final UserActivationTokenRepository userActivationTokensRepository;
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
-
-    private static final String EMAIL_FROM = "noreply@course-space.com";
-    private static final String EMAIL_SUBJECT = "Активация аккаунта";
-    private static final LocalDateTime TOKEN_VALIDITY_IN_MINUTES = LocalDateTime.now().plusMinutes(60);
+    
+    @Value("${mail.username}")
+    private String EMAIL_FROM = "noreply@course-space.com";
 
     @Transactional
     public void generateUserActivationToken(Long userId) {
@@ -46,7 +46,8 @@ public class UserActivationTokensService {
         UserActivationToken activationToken = new UserActivationToken();
         String token = UUID.randomUUID().toString();
         activationToken.setToken(token);
-        activationToken.setExpirationTime(TOKEN_VALIDITY_IN_MINUTES);
+        int TOKEN_VALIDITY_IN_MINUTES = 60;
+        activationToken.setExpirationTime(LocalDateTime.now().plusMinutes(TOKEN_VALIDITY_IN_MINUTES));
         activationToken.setUser(user);
         return activationToken;
     }
@@ -55,6 +56,7 @@ public class UserActivationTokensService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(EMAIL_FROM);
         message.setTo(user.getEmail());
+        String EMAIL_SUBJECT = "Активация аккаунта";
         message.setSubject(EMAIL_SUBJECT);
         message.setText("Пожалуйста, активируйте ваш аккаунт, используя этот токен: " + token);
         javaMailSender.send(message);

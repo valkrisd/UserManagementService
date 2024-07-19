@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 System.currentTimeMillis()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_MODIFIED);
     }
 
     @ExceptionHandler(ActivationException.class)
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 System.currentTimeMillis()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_IMPLEMENTED);
     }
 
     @ExceptionHandler(Exception.class)

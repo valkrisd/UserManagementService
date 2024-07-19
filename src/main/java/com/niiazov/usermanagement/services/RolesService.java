@@ -47,7 +47,6 @@ public class RolesService {
                 .map(RoleDTO::getName)
                 .collect(Collectors.toSet());
 
-        // Запрашиваем существующие роли из репозитория одним запросом и собираем их в мапу
         Map<String, Role> existingRoles = roleRepository.findByNameIn(roleNames)
                 .stream().collect(Collectors.toMap(Role::getName, role -> role));
 

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UserActivationToken {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
