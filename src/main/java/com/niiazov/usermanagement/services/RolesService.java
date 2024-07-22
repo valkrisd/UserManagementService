@@ -8,7 +8,6 @@ import com.niiazov.usermanagement.repositories.RoleRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +24,7 @@ import static java.util.stream.Collectors.toSet;
 public class RolesService {
 
     private final RoleRepository roleRepository;
+    private final UsersService userService;
     private final UserRepository userRepository;
     private final RoleMapper roleMapper;
 
@@ -40,8 +40,7 @@ public class RolesService {
     @Transactional
     public void updateUserRoles(Integer userId, Set<RoleDTO> roleDTOs) {
 
-        User userToUpdate = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+        User userToUpdate = userService.getUser(userId);
 
         Set<String> roleNames = roleDTOs.stream()
                 .map(RoleDTO::getName)
@@ -68,14 +67,14 @@ public class RolesService {
         userRepository.save(userToUpdate);
     }
 
-    public ResponseEntity<Set<RoleDTO>> getUserRoles(Integer userId) {
+    public Set<RoleDTO> getUserRoles(Integer userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
-        return ResponseEntity.ok(user.getRoles().stream()
+        return user.getRoles().stream()
                 .map(roleMapper::roleToRoleDTO)
-                .collect(toSet()));
+                .collect(toSet());
     }
 
     @Transactional

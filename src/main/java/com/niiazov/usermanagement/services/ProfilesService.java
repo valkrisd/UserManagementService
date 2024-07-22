@@ -17,6 +17,12 @@ public class ProfilesService {
 
     private final ProfileMapper profileMapper;
 
+    public ProfileDTO findProfileDTO(Integer userId) {
+
+        return profileRepository.findByUser_Id(userId).map(profileMapper::profileToProfileDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with user_id " + userId + " not found"));
+    }
+
     public Profile findProfile(Integer userId) {
 
         return profileRepository.findByUser_Id(userId)
@@ -27,8 +33,7 @@ public class ProfilesService {
     public void updateProfile(Integer userId, ProfileDTO profileDTO) {
         Profile profile = profileMapper.profileDTOToProfile(profileDTO);
 
-        Profile profileToUpdate = profileRepository.findByUser_Id(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Profile with user_id " + userId + " not found"));
+        Profile profileToUpdate = findProfile(userId);
 
         profileToUpdate.setGender(profile.getGender());
         profileToUpdate.setFullName(profile.getFullName());

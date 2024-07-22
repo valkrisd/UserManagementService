@@ -54,7 +54,7 @@ public class UsersController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Integer userId) {
         log.info("Запрос данных пользователя с id: {}", userId);
-        UserDTO userDTO = usersService.findUser(userId);
+        UserDTO userDTO = usersService.getUserDTO(userId);
         log.info("Пользователь с id: {} успешно найден", userId);
         return ResponseEntity.ok(userDTO);
     }

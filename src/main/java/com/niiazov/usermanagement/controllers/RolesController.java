@@ -38,9 +38,9 @@ public class RolesController {
     @GetMapping("/{userId}/roles")
     public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Integer userId) {
         log.info("Запрос ролей для пользователя с id: {}", userId);
-        ResponseEntity<Set<RoleDTO>> roleDTOs = rolesService.getUserRoles(userId);
+        Set<RoleDTO> roleDTOs = rolesService.getUserRoles(userId);
         log.debug("Роли для пользователя с id: {} успешно получены", userId);
-        return ResponseEntity.ok(roleDTOs.getBody());
+        return ResponseEntity.ok(roleDTOs);
     }
 
     @DeleteMapping("/{userId}/roles/{roleId}")

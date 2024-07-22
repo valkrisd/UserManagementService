@@ -25,7 +25,7 @@ public class UsersService {
         userRepository.save(user);
     }
 
-    public UserDTO findUser(Integer userId) {
+    public UserDTO getUserDTO(Integer userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
@@ -33,12 +33,19 @@ public class UsersService {
         } else throw new ResourceNotFoundException("User with id " + userId + " not found");
     }
 
+    public User getUser(Integer userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            return user.get();
+        } else throw new ResourceNotFoundException("User with id " + userId + " not found");
+    }
+
     @Transactional
     public void updateUser(Integer userId, UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
 
-        User userToUpdate = userRepository.findById(userId).orElseThrow(() ->
-                new ResourceNotFoundException("User with id " + userId + " not found"));
+        User userToUpdate = getUser(userId);
 
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setEmail(user.getEmail());
@@ -51,8 +58,7 @@ public class UsersService {
     @Transactional
     public void deleteUser(Integer userId) {
 
-        User userToDelete = userRepository.findById(userId).orElseThrow(() ->
-                new ResourceNotFoundException("User with id " + userId + " not found"));
+        User userToDelete = getUser(userId);
         userRepository.delete(userToDelete);
     }
 }

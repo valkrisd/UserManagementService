@@ -26,8 +26,8 @@ public class UserActivationTokensService {
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
     
-    @Value("${mail.username}")
-    private String EMAIL_FROM = "noreply@course-space.com";
+    @Value("${spring.mail.username}")
+    private String EMAIL_FROM;
 
     @Transactional
     public void generateUserActivationToken(Integer userId) {

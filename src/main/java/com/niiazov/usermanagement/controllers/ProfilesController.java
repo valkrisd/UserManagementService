@@ -1,8 +1,6 @@
 package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.ProfileDTO;
-import com.niiazov.usermanagement.mappers.ProfileMapper;
-import com.niiazov.usermanagement.models.Profile;
 import com.niiazov.usermanagement.services.ProfilesService;
 import com.niiazov.usermanagement.util.ErrorsUtil;
 import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
@@ -21,14 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProfilesController {
 
     private final ProfilesService profilesService;
-    private final ProfileMapper profileMapper;
-
     @GetMapping("/{userId}/profiles")
     public ResponseEntity<ProfileDTO> getProfile(@PathVariable Integer userId) {
         log.info("Запрос профиля для пользователя с id: {}", userId);
-        Profile profile = profilesService.findProfile(userId);
+        ProfileDTO profileDTO = profilesService.findProfileDTO(userId);
         log.debug("Профиль для пользователя с id: {} успешно извлечен", userId);
-        return ResponseEntity.ok(profileMapper.profileToProfileDTO(profile));
+
+        return ResponseEntity.ok(profileDTO);
     }
 
     @PutMapping("/{userId}/profiles")
