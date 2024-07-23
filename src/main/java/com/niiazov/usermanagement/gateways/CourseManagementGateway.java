@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(name = "course-management", url = "${course-management.url}")
-public interface CourseManagementClient {
+public interface CourseManagementGateway {
     @GetMapping("/users/{userId}/courses")
     List<CourseDTO> getCoursesByUserId(@PathVariable("userId") Long userId);
 
@@ -16,5 +16,5 @@ public interface CourseManagementClient {
     EnrollmentDTO enrollUserToCourse(@PathVariable("userId") Long userId, @RequestBody CourseDTO courseDTO);
 
     @DeleteMapping("/users/{userId}/enrollments/{enrollmentId}")
-    void unenrollUserFromCourse(@PathVariable("userId") Long userId, @PathVariable("enrollmentId") Long enrollmentId);
+    void unEnrollUserFromCourse(@PathVariable("userId") Long userId, @PathVariable("enrollmentId") Long enrollmentId);
 }

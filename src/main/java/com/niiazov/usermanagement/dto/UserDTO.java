@@ -20,5 +20,6 @@ public class UserDTO {
     @Size(max = 255, message = "Password must be less than 255 characters")
     private String password;
 
+    @Size(max = 20, message = "Status must be less than 20 characters")
     private Status status;
 }
