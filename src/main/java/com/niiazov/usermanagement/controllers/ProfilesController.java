@@ -29,7 +29,9 @@ public class ProfilesController {
     }
 
     @PutMapping("/{userId}/profiles")
-    public ResponseEntity<HttpStatus> updateProfile(@PathVariable Integer userId, @RequestBody @Valid ProfileDTO profileDTO, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateProfile(@PathVariable Integer userId,
+                                                    @RequestBody @Valid ProfileDTO profileDTO,
+                                                    BindingResult bindingResult) {
         log.info("Запрос на обновление профиля для пользователя с id: {}", userId);
         if (bindingResult.hasErrors()) {
             String errorMsg = ErrorsUtil.getErrorMessage(bindingResult);

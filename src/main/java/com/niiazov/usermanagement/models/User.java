@@ -1,6 +1,6 @@
 package com.niiazov.usermanagement.models;
 
-import com.niiazov.usermanagement.enums.Status;
+import com.niiazov.usermanagement.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "\"user\"")
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -32,7 +32,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private Status status;
+    private UserStatus userStatus;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

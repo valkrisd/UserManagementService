@@ -22,7 +22,9 @@ public class RolesController {
     private final RolesService rolesService;
 
     @PostMapping("/{userId}/roles")
-    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Integer userId, @RequestBody @Valid Set<RoleDTO> roleDTOs, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUserRoles(@PathVariable Integer userId,
+                                                      @RequestBody @Valid Set<RoleDTO> roleDTOs,
+                                                      BindingResult bindingResult) {
         log.info("Запрос на обновление ролей пользователя с id: {}", userId);
         if (bindingResult.hasErrors()) {
             String errorMsg = ErrorsUtil.getErrorMessage(bindingResult);

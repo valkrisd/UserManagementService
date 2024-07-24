@@ -1,7 +1,7 @@
 package com.niiazov.usermanagement.dto;
 
 import com.niiazov.usermanagement.enums.EnrollmentStatus;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 public class EnrollmentDTO {
-    @NotEmpty(message = "User id cannot be empty")
+    @NotNull(message = "User ID cannot be null")
     private Integer userId;
 
     @Size(max = 20, message = "Status cannot be longer than 20 characters")
@@ -18,5 +18,7 @@ public class EnrollmentDTO {
     private LocalDate enrollmentDate;
 
     private Boolean completed;
+
+    private CourseDTO courseDTO;
 }
 

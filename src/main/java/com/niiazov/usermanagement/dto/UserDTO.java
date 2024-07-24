@@ -1,6 +1,6 @@
 package com.niiazov.usermanagement.dto;
 
-import com.niiazov.usermanagement.enums.Status;
+import com.niiazov.usermanagement.enums.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -21,5 +21,5 @@ public class UserDTO {
     private String password;
 
     @Size(max = 20, message = "Status must be less than 20 characters")
-    private Status status;
+    private UserStatus userStatus;
 }

@@ -1,7 +1,7 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.UserActivationTokenDTO;
-import com.niiazov.usermanagement.enums.Status;
+import com.niiazov.usermanagement.enums.UserStatus;
 import com.niiazov.usermanagement.exceptions.ActivationException;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.models.User;
@@ -68,9 +68,11 @@ public class UserActivationTokensService {
             throw new ActivationException("Токен не может быть пустым");
         }
 
-        Optional<UserActivationToken> activationTokenOpt = userActivationTokensRepository.findByToken(token.getToken());
+        Optional<UserActivationToken> activationTokenOpt =
+                userActivationTokensRepository.findByToken(token.getToken());
 
-        if (activationTokenOpt.isEmpty() || activationTokenOpt.get().getExpirationTime().isBefore(LocalDateTime.now())) {
+        if (activationTokenOpt.isEmpty() ||
+                activationTokenOpt.get().getExpirationTime().isBefore(LocalDateTime.now())) {
             throw new ActivationException("Недействительный токен активации");
         }
 
@@ -78,7 +80,7 @@ public class UserActivationTokensService {
         User user = userRepository.findById(activationToken.getUser().getId())
                 .orElseThrow(() -> new ActivationException("Пользователь не найден"));
 
-        user.setStatus(Status.ACTIVE);
+        user.setUserStatus(UserStatus.ACTIVE);
         userRepository.save(user);
     }
 
