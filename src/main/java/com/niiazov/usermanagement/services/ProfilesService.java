@@ -1,39 +1,45 @@
 package com.niiazov.usermanagement.services;
 
+import com.niiazov.usermanagement.dto.ProfileDTO;
+import com.niiazov.usermanagement.mappers.ProfileMapper;
 import com.niiazov.usermanagement.models.Profile;
 import com.niiazov.usermanagement.repositories.ProfileRepository;
-import com.niiazov.usermanagement.util.ProfileNotFoundException;
-import lombok.AllArgsConstructor;
+import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProfilesService {
 
     private final ProfileRepository profileRepository;
-    public Profile findProfile(Long userId) {
-        Optional<Profile> optionalProfile = profileRepository.findByUser_Id(userId);
-        return optionalProfile.orElse(null);
+
+    private final ProfileMapper profileMapper;
+
+    public ProfileDTO findProfileDTO(Integer userId) {
+
+        return profileRepository.findByUser_Id(userId).map(profileMapper::profileToProfileDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with user_id " + userId + " not found"));
     }
+
+    public Profile findProfile(Integer userId) {
+
+        return profileRepository.findByUser_Id(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Profile with user_id " + userId + " not found"));
+    }
+
     @Transactional
-    public void updateProfile(Long userId, Profile profile) {
-        Optional<Profile> profileToUpdate = profileRepository.findByUser_Id(userId);
+    public void updateProfile(Integer userId, ProfileDTO profileDTO) {
+        Profile profile = profileMapper.profileDTOToProfile(profileDTO);
 
-        if (profileToUpdate.isEmpty()) {
-            throw new ProfileNotFoundException("Profile with user_id " + userId + " not found");
-        }
-        profileToUpdate.ifPresent(updatedProfile -> {
-            updatedProfile.setGender(profile.getGender());
-            updatedProfile.setFullName(profile.getFullName());
-            updatedProfile.setAddress(profile.getAddress());
-            updatedProfile.setDateOfBirth(profile.getDateOfBirth());
-            updatedProfile.setPhoneNumber(profile.getPhoneNumber());
-            updatedProfile.setAvatarUrl(profile.getAvatarUrl());
+        Profile profileToUpdate = findProfile(userId);
 
-            profileRepository.save(updatedProfile);
-        });
+        profileToUpdate.setGender(profile.getGender());
+        profileToUpdate.setFullName(profile.getFullName());
+        profileToUpdate.setAddress(profile.getAddress());
+        profileToUpdate.setDateOfBirth(profile.getDateOfBirth());
+        profileToUpdate.setPhoneNumber(profile.getPhoneNumber());
+        profileToUpdate.setAvatarUrl(profile.getAvatarUrl());
     }
 }

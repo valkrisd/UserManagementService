@@ -1,21 +1,29 @@
 package com.niiazov.usermanagement.models;
 
-import com.niiazov.usermanagement.enums.Status;
+import com.niiazov.usermanagement.enums.UserStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
-@Data
+@Table(name = "\"user\"")
+@RequiredArgsConstructor
+@Getter
+@Setter
+@EntityListeners(AuditingEntityListener.class)
 public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -28,15 +36,17 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private Status status;
+    private UserStatus userStatus;
 
     @Column(name = "created_at")
+    @CreatedDate
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserActivationToken> activationTokens = new HashSet<>();
 
     @ManyToMany
@@ -47,6 +57,6 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.REMOVE})
     private Profile profile;
 }

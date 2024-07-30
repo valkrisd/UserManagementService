@@ -1,19 +1,25 @@
 package com.niiazov.usermanagement.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "profile")
-@Data
+@RequiredArgsConstructor
+@Getter
+@Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "full_name")
     private String fullName;

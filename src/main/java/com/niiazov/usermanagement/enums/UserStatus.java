@@ -1,5 +1,5 @@
 package com.niiazov.usermanagement.enums;
 
-public enum Status {
+public enum UserStatus {
     ACTIVE, PENDING
 }
