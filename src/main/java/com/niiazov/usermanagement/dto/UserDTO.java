@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
+
     @Size(max = 100, message = "Username must be less than 100 characters")
     private String username;
 
@@ -20,6 +21,5 @@ public class UserDTO {
     @Size(max = 255, message = "Password must be less than 255 characters")
     private String password;
 
-    @Size(max = 20, message = "Status must be less than 20 characters")
     private UserStatus userStatus;
 }

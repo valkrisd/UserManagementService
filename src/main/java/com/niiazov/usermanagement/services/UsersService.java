@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -50,7 +49,6 @@ public class UsersService {
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setPassword(user.getPassword());
-        userToUpdate.setUpdatedAt(LocalDateTime.now());
 
         userRepository.save(userToUpdate);
     }

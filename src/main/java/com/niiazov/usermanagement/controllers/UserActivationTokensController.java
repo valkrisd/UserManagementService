@@ -22,6 +22,7 @@ public class UserActivationTokensController {
         log.info("Попытка генерации токена активации для пользователя с ID: {}", userId);
         userActivationTokensService.generateUserActivationToken(userId);
         log.info("Токен активации успешно сгенерирован для пользователя с ID: {}", userId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -30,6 +31,7 @@ public class UserActivationTokensController {
         log.info("Попытка активации пользователя с токеном: {}", userActivationTokenDTO.getToken());
         userActivationTokensService.activateUser(userActivationTokenDTO);
         log.info("Пользователь успешно активирован");
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

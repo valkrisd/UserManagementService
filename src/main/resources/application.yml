@@ -16,19 +16,18 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         show_sql: true
         hbm2ddl:
           auto: update
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: vladislav.niiazov@gmail.com
-    password: a4X76u3PDI
+    host: app.debugmail.io
+    port: 25
+    username: 372b2d22-a9ad-4180-8b42-4769133dff7c
+    password: b4d1aebe-407c-4312-ad95-cd4c8cc49b7d
+    from: no-reply@course-space.com
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-

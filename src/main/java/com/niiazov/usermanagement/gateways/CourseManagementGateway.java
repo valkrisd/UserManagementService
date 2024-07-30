@@ -16,6 +16,6 @@ public interface CourseManagementGateway {
     @PostMapping("/enrollments")
     void createEnrollment(@RequestBody @Valid EnrollmentDTO enrollmentDTO);
 
-    @DeleteMapping("/enrollments/{enrollmentId}")
-    void deleteEnrollment(@PathVariable("enrollmentId") Integer enrollmentId);
+    @DeleteMapping("/enrollments/{enrollmentId}/user/{userId}")
+    void deleteEnrollment(@PathVariable("enrollmentId") Integer enrollmentId, @PathVariable("userId") Integer userId);
 }

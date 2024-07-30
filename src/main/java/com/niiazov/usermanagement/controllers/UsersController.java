@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersController {
     private final UsersService usersService;
 
+    // TODO: Add password encryption later
     @PostMapping("/register")
     public ResponseEntity<HttpStatus> register(@RequestBody @Valid UserDTO userDTO,
                                                BindingResult bindingResult) {
@@ -41,14 +42,14 @@ public class UsersController {
     @PostMapping("/authenticate")
     public String authenticate(@RequestBody @Valid UserDTO userDTO) {
         log.info("Аутентификация пользователя: {}", userDTO);
-        return null;
+        return "Test response";
     }
 
     // TODO: Implement API with Spring Security later
     @GetMapping("/me")
     public String me(@RequestBody @Valid UserDTO userDTO) {
         log.info("[TEMP] Получение информации о текущем пользователе: {}", userDTO);
-        return null;
+        return "Test response";
     }
 
     @GetMapping("/{userId}")

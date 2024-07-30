@@ -31,12 +31,12 @@ public class UserEnrollmentsService {
                 .collect(Collectors.toSet());
     }
 
-    public void createEnrollment(Integer userId, EnrollmentDTO enrollmentDTO) {
+    public void createEnrollment(EnrollmentDTO enrollmentDTO) {
 
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) throw new ResourceNotFoundException("User with id " + userId + " not found");
+        Optional<User> user = userRepository.findById(enrollmentDTO.getUserId());
+        if (user.isEmpty())
+            throw new ResourceNotFoundException("User with id " + enrollmentDTO.getUserId() + " not found");
 
-        enrollmentDTO.setUserId(userId);
         courseManagementGateway.createEnrollment(enrollmentDTO);
     }
 
@@ -45,6 +45,6 @@ public class UserEnrollmentsService {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) throw new ResourceNotFoundException("User with id " + userId + " not found");
 
-        courseManagementGateway.deleteEnrollment(enrollmentId);
+        courseManagementGateway.deleteEnrollment(enrollmentId, userId);
     }
 }

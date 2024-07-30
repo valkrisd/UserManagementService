@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class ProfileDTO {
+
     @Size(max = 255, message = "Full name must be less than 255 characters")
     private String fullName;
 

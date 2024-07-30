@@ -31,10 +31,10 @@ public class RolesService {
     /**
      * Добавляет роли пользователя
      *
-     * @param userId    - идентификатор пользователя
-     *                    (пользователь должен существовать в репозитории)
-     * @param roleDTOs  - DTO с ролями пользователя
-     *                    (роли должны существовать в репозитории)
+     * @param userId   - идентификатор пользователя
+     *                 (пользователь должен существовать в репозитории)
+     * @param roleDTOs - DTO с ролями пользователя
+     *                 (роли должны существовать в репозитории)
      */
 
     @Transactional
@@ -82,6 +82,9 @@ public class RolesService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
-        user.getRoles().removeIf(role -> role.getId().equals(roleId));
+        boolean removed = user.getRoles().removeIf(role -> role.getId().equals(roleId));
+        if (!removed) {
+            throw new ResourceNotFoundException("This user doesn't have a role with id " + roleId);
+        }
     }
 }

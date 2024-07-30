@@ -30,24 +30,23 @@ public class UserEnrollmentsController {
         return ResponseEntity.ok(courseDTOS);
     }
 
-    @PostMapping("/users/{userId}/enrollments")
-    public ResponseEntity<HttpStatus> createEnrollment(@PathVariable Integer userId,
-                                                       @RequestBody @Valid EnrollmentDTO enrollmentDTO,
+    @PostMapping("/enrollments")
+    public ResponseEntity<HttpStatus> createEnrollment(@RequestBody @Valid EnrollmentDTO enrollmentDTO,
                                                        BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.error("Ошибка валидации при создании записи на курс для пользователя с ID: {}", userId);
+            log.error("Ошибка валидации при создании записи на курс для пользователя с ID: {}", enrollmentDTO.getUserId());
             return ResponseEntity.badRequest().build();
         }
 
-        log.info("Попытка создания записи на курс для пользователя с ID: {}", userId);
-        userEnrollmentsService.createEnrollment(userId, enrollmentDTO);
-        log.info("Запись на курс для пользователя с ID: {} успешно создана", userId);
+        log.info("Попытка создания записи на курс для пользователя с ID: {}", enrollmentDTO.getUserId());
+        userEnrollmentsService.createEnrollment(enrollmentDTO);
+        log.info("Запись на курс для пользователя с ID: {} успешно создана", enrollmentDTO.getUserId());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{userId}/enrollments/{enrollmentId}")
+    @DeleteMapping("/{userId}/enrollments/{enrollmentId}")
     public ResponseEntity<HttpStatus> deleteEnrollment(@PathVariable Integer userId,
                                                        @PathVariable Integer enrollmentId) {
         log.info("Попытка удаления записи на курс для пользователя с ID: {}", userId);
