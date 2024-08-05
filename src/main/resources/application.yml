@@ -18,7 +18,7 @@ spring:
       hibernate:
         show_sql: true
         hbm2ddl:
-          auto: update
+          auto: create
   mail:
     host: app.debugmail.io
     port: 25
