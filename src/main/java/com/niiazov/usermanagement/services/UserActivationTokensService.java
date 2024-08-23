@@ -27,7 +27,7 @@ public class UserActivationTokensService {
     private final UserActivationTokenRepository userActivationTokensRepository;
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
-    
+
     @Value("${spring.mail.from}")
     private String EMAIL_FROM;
 

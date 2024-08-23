@@ -1,9 +1,9 @@
 package com.niiazov.usermanagement.services;
 
-import com.niiazov.usermanagement.gateways.CourseManagementGateway;
 import com.niiazov.usermanagement.dto.CourseDTO;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
+import com.niiazov.usermanagement.gateways.CourseManagementGateway;
 import com.niiazov.usermanagement.models.User;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class UserEnrollmentsService {
 
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) throw new ResourceNotFoundException("User with id " + userId + " not found");
+
         Set<EnrollmentDTO> enrollments = courseManagementGateway.getEnrollmentsByUserId(userId);
 
         return enrollments.stream()

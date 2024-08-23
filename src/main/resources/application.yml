@@ -1,14 +1,14 @@
-server:
-  address: 127.0.0.1
-  port: 8080
+#server:
+# address: 127.0.0.1
+# port: 8080
 
-course-management:
-  url: http://localhost:8081
+course_management:
+  url: ${COURSE_MANAGEMENT_URL:http://localhost:8081}
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/UserDB
+    url: jdbc:postgresql://127.0.0.1:5434/UserDB
     username: postgres
     password: 307t0HrY
   flyway:
@@ -18,7 +18,7 @@ spring:
       hibernate:
         show_sql: true
         hbm2ddl:
-          auto: create
+          auto: none
   mail:
     host: app.debugmail.io
     port: 25
@@ -31,3 +31,6 @@ spring:
           auth: true
           starttls:
             enable: true
+  kafka:
+    consumer:
+      bootstrap_servers: kafka:9092

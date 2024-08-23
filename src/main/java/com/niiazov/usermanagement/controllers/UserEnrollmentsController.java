@@ -2,6 +2,7 @@ package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.CourseDTO;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
+import com.niiazov.usermanagement.services.KafkaNotificationsService;
 import com.niiazov.usermanagement.services.UserEnrollmentsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class UserEnrollmentsController {
 
     private final UserEnrollmentsService userEnrollmentsService;
+    private final KafkaNotificationsService kafkaNotificationsService;
 
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Set<CourseDTO>> getEnrollmentsByUser(@PathVariable Integer userId) {
@@ -42,6 +44,10 @@ public class UserEnrollmentsController {
         log.info("Попытка создания записи на курс для пользователя с ID: {}", enrollmentDTO.getUserId());
         userEnrollmentsService.createEnrollment(enrollmentDTO);
         log.info("Запись на курс для пользователя с ID: {} успешно создана", enrollmentDTO.getUserId());
+
+
+        kafkaNotificationsService.sendEnrollmentNotification(enrollmentDTO);
+        log.info("Уведомление о создании записи на курс для пользователя с ID: {} отправлено", enrollmentDTO.getUserId());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

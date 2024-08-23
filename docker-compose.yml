@@ -1,26 +1,83 @@
 services:
-  user_db:
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=307t0HrY
-      - POSTGRES_DB=UserDB
-    volumes:
-      - user_db:/postgresql/data
-    ports:
-      - "127.0.0.1:5432:5432"
 
-  app:
-    restart: always
+  user-management-app:
     build: .
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8082:8080"
     depends_on:
       - user_db
+      - kafka
+      - course-management-app
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://user_db:5432/UserDB
-      - JAVA_OPTS=-Xmx512m
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user_db:5432/${POSTGRES_USER_DB}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - COURSE_MANAGEMENT_URL=http://course-management-app:8080
+
+  user_db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=${POSTGRES_USER_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - user_db:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  course-management-app:
+    build: /Users/vladislav/IdeaProjects/CourseManagement
+    ports:
+      - "8081:8080"
+    depends_on:
+      - course_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://course_db:5432/${POSTGRES_COURSE_DB}
+
+  course_db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=${POSTGRES_COURSE_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - course_db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  notification-service-app:
+    build: /Users/vladislav/IdeaProjects/NotificationService
+    ports:
+      - "8083:8080"
+    depends_on:
+      - user-management-app
+      - kafka
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9093:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:9092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP}:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   user_db:
+  course_db:
+
+networks:
+  default:
+    name: app-network

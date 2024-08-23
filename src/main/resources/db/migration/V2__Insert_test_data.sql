@@ -4,7 +4,8 @@ VALUES ('user1', 'user1@example.com', 'password1', 'ACTIVE'),
        ('user2', 'user2@example.com', 'password3', 'PENDING');
 
 INSERT INTO profile (user_id, full_name, gender, date_of_birth, address, phone_number, avatar_url)
-VALUES (1, 'John Doe', 'Male', '1990-01-01', '1234 Main St, Anytown', '123-456-7890', 'https://example.com/avatar1.jpg'),
+VALUES (1, 'John Doe', 'Male', '1990-01-01', '1234 Main St, Anytown', '123-456-7890',
+        'https://example.com/avatar1.jpg'),
        (2, 'Jane Smith', 'Female', '1985-05-05', '5678 Oak St, Othertown', '234-567-8901',
         'https://example.com/avatar2.jpg');
 

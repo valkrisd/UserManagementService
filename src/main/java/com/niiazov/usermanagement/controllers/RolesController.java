@@ -1,9 +1,9 @@
 package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.RoleDTO;
+import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import com.niiazov.usermanagement.services.RolesService;
 import com.niiazov.usermanagement.util.ErrorsUtil;
-import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

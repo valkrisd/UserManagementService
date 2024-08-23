@@ -4,15 +4,14 @@ import com.niiazov.usermanagement.dto.UserDTO;
 import com.niiazov.usermanagement.exceptions.ResourceNotCreatedException;
 import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import com.niiazov.usermanagement.services.UsersService;
-import com.niiazov.usermanagement.util.*;
+import com.niiazov.usermanagement.util.ErrorsUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j

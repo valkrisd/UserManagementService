@@ -1,9 +1,9 @@
 package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.ProfileDTO;
+import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import com.niiazov.usermanagement.services.ProfilesService;
 import com.niiazov.usermanagement.util.ErrorsUtil;
-import com.niiazov.usermanagement.exceptions.ResourceNotUpdatedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProfilesController {
 
     private final ProfilesService profilesService;
+
     @GetMapping("/{userId}/profiles")
     public ResponseEntity<ProfileDTO> getProfile(@PathVariable Integer userId) {
         log.info("Запрос профиля для пользователя с id: {}", userId);
