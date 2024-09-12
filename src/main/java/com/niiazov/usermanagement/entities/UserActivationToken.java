@@ -1,9 +1,7 @@
-package com.niiazov.usermanagement.models;
+package com.niiazov.usermanagement.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -11,7 +9,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_activation_token")
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)

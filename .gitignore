@@ -34,4 +34,5 @@ build/
 
 ### Config file ###
 application.yml
+application-test.yml
 .env

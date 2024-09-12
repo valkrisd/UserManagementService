@@ -1,6 +1,6 @@
 package com.niiazov.usermanagement.repositories;
 
-import com.niiazov.usermanagement.models.Role;
+import com.niiazov.usermanagement.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

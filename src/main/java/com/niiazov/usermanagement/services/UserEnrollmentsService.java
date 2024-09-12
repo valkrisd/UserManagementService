@@ -4,7 +4,7 @@ import com.niiazov.usermanagement.dto.CourseDTO;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.gateways.CourseManagementGateway;
-import com.niiazov.usermanagement.models.User;
+import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

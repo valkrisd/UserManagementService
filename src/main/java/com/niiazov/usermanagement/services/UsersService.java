@@ -1,9 +1,9 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.mappers.UserMapper;
-import com.niiazov.usermanagement.models.User;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,20 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UsersService {
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
     @Transactional
     public void saveUser(UserDTO userDTO) {
+
         User user = userMapper.userDTOToUser(userDTO);
 
         userRepository.save(user);
     }
 
     public UserDTO getUserDTO(Integer userId) {
+
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
@@ -33,6 +36,7 @@ public class UsersService {
     }
 
     public User getUser(Integer userId) {
+
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isPresent()) {
@@ -42,6 +46,7 @@ public class UsersService {
 
     @Transactional
     public void updateUser(Integer userId, UserDTO userDTO) {
+
         User user = userMapper.userDTOToUser(userDTO);
 
         User userToUpdate = getUser(userId);
@@ -57,6 +62,7 @@ public class UsersService {
     public void deleteUser(Integer userId) {
 
         User userToDelete = getUser(userId);
+
         userRepository.delete(userToDelete);
     }
 }

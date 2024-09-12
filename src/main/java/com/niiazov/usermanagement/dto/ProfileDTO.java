@@ -2,10 +2,12 @@ package com.niiazov.usermanagement.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@RequiredArgsConstructor
 public class ProfileDTO {
 
     @Size(max = 255, message = "Full name must be less than 255 characters")
