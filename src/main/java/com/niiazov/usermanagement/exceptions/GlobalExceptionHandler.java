@@ -3,11 +3,22 @@ package com.niiazov.usermanagement.exceptions;
 import com.niiazov.usermanagement.util.UserErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
+        StringBuilder errorMessage = new StringBuilder();
+        e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+            errorMessage.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage()).append("; ");
+        });
+        return ResponseEntity.badRequest().body(errorMessage.toString());
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<UserErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
         UserErrorResponse errorResponse = new UserErrorResponse(

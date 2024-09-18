@@ -1,5 +1,6 @@
 package com.niiazov.usermanagement.services;
 
+import com.niiazov.usermanagement.config.KafkaTopicConfig;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class KafkaNotificationsService {
 
     public void sendEnrollmentNotification(EnrollmentDTO enrollmentDTO) {
         CompletableFuture<SendResult<String, EnrollmentDTO>> future =
-                kafkaTemplate.send("course_notifications", enrollmentDTO);
+                kafkaTemplate.send(KafkaTopicConfig.TOPIC_NAME, enrollmentDTO);
 
         future.whenComplete((result, ex) -> {
             if (ex == null) {
