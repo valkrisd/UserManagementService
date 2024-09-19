@@ -1,4 +1,6 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
   config:
     activate:
       on-profile: test
@@ -10,3 +12,9 @@ spring:
       hibernate:
         hbm2ddl:
           auto: create-drop
+
+course_management:
+  url: http://localhost:8080
+
+
+

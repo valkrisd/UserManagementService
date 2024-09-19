@@ -2,7 +2,9 @@ package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.ProfileDTO;
 import com.niiazov.usermanagement.services.ProfilesService;
+import com.niiazov.usermanagement.util.TestEntitiesBuilder;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,19 +24,24 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ProfilesControllerTests {
 
-    private static Integer userId;
-    private static ProfileDTO profileDTO;
-
     @Mock
     private ProfilesService profilesService;
 
     @InjectMocks
     private ProfilesController profilesController;
 
+    private static Integer userId;
+    private static ProfileDTO profileDTO;
+
     @BeforeEach
     public void setup() {
-        profileDTO = Mockito.mock(ProfileDTO.class);
+        profileDTO = TestEntitiesBuilder.buildProfileDTO();
         userId = new Random().nextInt();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        Mockito.reset(profilesService);
     }
 
     @Test
