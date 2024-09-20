@@ -40,7 +40,6 @@ public class UserEnrollmentsControllerIntegrationTests {
 
     @Container
     private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13");
-
     @Container
     private static final KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
 
@@ -58,7 +57,6 @@ public class UserEnrollmentsControllerIntegrationTests {
 
     private User user;
     private EnrollmentDTO enrollmentDTO;
-
 
     @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry registry) {
