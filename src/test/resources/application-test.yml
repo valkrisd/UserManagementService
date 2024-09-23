@@ -1,6 +1,11 @@
 spring:
   kafka:
+    topic:
+      name: course-notifications
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: course-management
+
   config:
     activate:
       on-profile: test

@@ -14,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-public class ProfileControllerJsonTests {
+public class ProfilesControllerJsonTests {
 
     @Autowired
     JacksonTester<ProfileDTO> profileDTOJacksonTester;
@@ -32,19 +32,15 @@ public class ProfileControllerJsonTests {
         assertThat(serializedObject).isEqualToJson(new ClassPathResource("profileDTO.json"));
 
         assertThat(serializedObject).hasJsonPath("$.fullName");
-        assertThat(serializedObject).hasJsonPath("$.gender");
-        assertThat(serializedObject).hasJsonPath("$.dateOfBirth");
 
     }
 
     @Test
     void testDeserializationOfJsonFile() throws Exception {
         ObjectContent<ProfileDTO> deserializedObject = profileDTOJacksonTester.read(new ClassPathResource("profileDTO.json"));
-        assertThat(profileDTO).isEqualTo(deserializedObject.getObject());
+        assertThat(deserializedObject.getObject()).isEqualTo(profileDTO);
 
         assertThat(deserializedObject.getObject().getFullName()).isEqualTo(profileDTO.getFullName());
-        assertThat(deserializedObject.getObject().getGender()).isEqualTo(profileDTO.getGender());
-        assertThat(deserializedObject.getObject().getDateOfBirth()).isEqualTo(profileDTO.getDateOfBirth());
 
     }
 }
