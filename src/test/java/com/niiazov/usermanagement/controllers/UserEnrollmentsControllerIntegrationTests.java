@@ -25,6 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -32,13 +33,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.Properties;
+import java.util.*;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @WireMockTest(httpPort = 8081)
@@ -49,9 +48,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserEnrollmentsControllerIntegrationTests {
 
     @Container
-    private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13");
+    private static final PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:13");
     @Container
-    private static final KafkaContainer kafkaContainer = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+    private static final KafkaContainer kafkaContainer =
+            new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
 
     @MockBean
     private CourseManagementGateway courseManagementGateway;
@@ -72,7 +73,7 @@ public class UserEnrollmentsControllerIntegrationTests {
     private String GROUP_ID;
 
     @DynamicPropertySource
-    static void databaseProperties(DynamicPropertyRegistry registry) {
+    static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
@@ -103,29 +104,28 @@ public class UserEnrollmentsControllerIntegrationTests {
     @BeforeEach
     public void setup() {
         user = TestEntitiesBuilder.buildUserWithEmptyRolesSet();
-        userRepository.save(user);
-
         enrollmentDTO = TestEntitiesBuilder.buildEnrollmentDTO();
     }
 
     @Test
     public void createEnrollment_returnsOk() throws Exception {
+        userRepository.save(user);
 
         stubFor(WireMock.post(urlEqualTo("/enrollments"))
                 .withHeader("Content-Type", equalTo("application/json"))
                 .willReturn(created()));
 
-        mockMvc.perform(post("/users/enrollments")
+        MvcResult result = mockMvc.perform(post("/users/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(enrollmentDTO)))
-                .andExpect(status().isOk())
                 .andReturn();
 
         Mockito.verify(courseManagementGateway).createEnrollment(enrollmentDTO);
+        assertThat(result.getResponse().getStatus()).isEqualTo(200);
 
         ConsumerRecord<String, EnrollmentDTO> record = consumeMessage(TOPIC_NAME);
         assertThat(record).isNotNull();
         assertThat(record.value().getUserId()).isEqualTo(enrollmentDTO.getUserId());
-
     }
+
 }

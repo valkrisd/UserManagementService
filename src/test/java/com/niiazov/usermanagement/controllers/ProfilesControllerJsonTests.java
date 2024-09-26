@@ -29,7 +29,7 @@ public class ProfilesControllerJsonTests {
     @Test
     void testSerializationToJsonFile() throws Exception {
         JsonContent<ProfileDTO> serializedObject = profileDTOJacksonTester.write(profileDTO);
-        assertThat(serializedObject).isEqualToJson(new ClassPathResource("profileDTO.json"));
+        assertThat(serializedObject).isEqualToJson(new ClassPathResource("jsons/profileDTO.json"));
 
         assertThat(serializedObject).hasJsonPath("$.fullName");
 
@@ -37,7 +37,7 @@ public class ProfilesControllerJsonTests {
 
     @Test
     void testDeserializationOfJsonFile() throws Exception {
-        ObjectContent<ProfileDTO> deserializedObject = profileDTOJacksonTester.read(new ClassPathResource("profileDTO.json"));
+        ObjectContent<ProfileDTO> deserializedObject = profileDTOJacksonTester.read(new ClassPathResource("jsons/profileDTO.json"));
         assertThat(deserializedObject.getObject()).isEqualTo(profileDTO);
 
         assertThat(deserializedObject.getObject().getFullName()).isEqualTo(profileDTO.getFullName());

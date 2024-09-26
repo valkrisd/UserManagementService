@@ -13,9 +13,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
         StringBuilder errorMessage = new StringBuilder();
-        e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-            errorMessage.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage()).append("; ");
-        });
+        e.getBindingResult().getFieldErrors().forEach(fieldError ->
+                errorMessage.append(fieldError.getField()).append(" - ")
+                        .append(fieldError.getDefaultMessage()).append("; "));
         return ResponseEntity.badRequest().body(errorMessage.toString());
     }
 
@@ -53,6 +53,15 @@ public class GlobalExceptionHandler {
                 System.currentTimeMillis()
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @ExceptionHandler(EnrollmentAlreadyExistsException.class)
+    public ResponseEntity<UserErrorResponse> handleEnrollmentAlreadyExistsException(EnrollmentAlreadyExistsException ex) {
+        UserErrorResponse errorResponse = new UserErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)

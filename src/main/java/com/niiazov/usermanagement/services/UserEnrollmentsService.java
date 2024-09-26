@@ -2,13 +2,15 @@ package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.CourseDTO;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
+import com.niiazov.usermanagement.entities.User;
+import com.niiazov.usermanagement.exceptions.EnrollmentAlreadyExistsException;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.gateways.CourseManagementGateway;
-import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,9 +36,20 @@ public class UserEnrollmentsService {
 
     public void createEnrollment(EnrollmentDTO enrollmentDTO) {
 
-        Optional<User> user = userRepository.findById(enrollmentDTO.getUserId());
-        if (user.isEmpty())
-            throw new ResourceNotFoundException("User with id " + enrollmentDTO.getUserId() + " not found");
+        Integer userId = enrollmentDTO.getUserId();
+        Integer courseId = enrollmentDTO.getCourseDTO().getId();
+
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
+
+        Set<EnrollmentDTO> enrollments = courseManagementGateway.getEnrollmentsByUserId(userId);
+
+        boolean isAlreadyEnrolled = enrollments.stream()
+                .anyMatch(enrollment -> Objects.equals(enrollment.getCourseDTO().getId(), courseId));
+
+        if (isAlreadyEnrolled) {
+            throw new EnrollmentAlreadyExistsException("User with id " + userId + " already enrolled in course with id " + courseId);
+        }
 
         courseManagementGateway.createEnrollment(enrollmentDTO);
     }

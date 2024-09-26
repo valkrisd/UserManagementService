@@ -2,9 +2,11 @@ spring:
   kafka:
     topic:
       name: course-notifications
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9093
     consumer:
       group-id: course-management
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   config:
     activate:
