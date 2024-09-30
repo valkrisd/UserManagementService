@@ -3,6 +3,7 @@ package com.niiazov.usermanagement.services;
 import com.niiazov.usermanagement.dto.EnrollmentDTO;
 import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.exceptions.EnrollmentAlreadyExistsException;
+import com.niiazov.usermanagement.exceptions.TooManyEnrollmentsException;
 import com.niiazov.usermanagement.gateways.CourseManagementGateway;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import com.niiazov.usermanagement.util.TestEntitiesBuilder;
@@ -89,7 +90,7 @@ public class UserEnrollmentsServiceIntegrationTests {
 
     @Test
     void createEnrollment_throwsEnrollmentAlreadyExistsException() throws IOException {
-        enrollmentDTOs = jsonEnrollmentDTOSet.readObject(new ClassPathResource("jsons/throwsExceptionEnrollmentDTOs.json"));
+        enrollmentDTOs = jsonEnrollmentDTOSet.readObject(new ClassPathResource("jsons/throwsEnrollmentAlreadyExistsException.json"));
 
         Integer userId = enrollmentDTO.getUserId();
 
@@ -97,6 +98,19 @@ public class UserEnrollmentsServiceIntegrationTests {
         when(courseManagementGateway.getEnrollmentsByUserId(userId)).thenReturn(enrollmentDTOs);
 
         assertThrows(EnrollmentAlreadyExistsException.class, () -> userEnrollmentsService.createEnrollment(enrollmentDTO));
+        verify(courseManagementGateway, never()).createEnrollment(any());
+    }
+
+    @Test
+    void createEnrollment_throwsTooManyEnrollmentsException() throws IOException {
+        enrollmentDTOs = jsonEnrollmentDTOSet.readObject(new ClassPathResource("jsons/throwsTooManyEnrollmentsException.json"));
+
+        Integer userId = enrollmentDTO.getUserId();
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(courseManagementGateway.getEnrollmentsByUserId(userId)).thenReturn(enrollmentDTOs);
+
+        assertThrows(TooManyEnrollmentsException.class, () -> userEnrollmentsService.createEnrollment(enrollmentDTO));
         verify(courseManagementGateway, never()).createEnrollment(any());
     }
 }

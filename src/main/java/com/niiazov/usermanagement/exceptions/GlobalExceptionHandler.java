@@ -1,6 +1,6 @@
 package com.niiazov.usermanagement.exceptions;
 
-import com.niiazov.usermanagement.util.UserErrorResponse;
+import com.niiazov.usermanagement.util.UserManagementErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,66 +10,51 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private ResponseEntity<UserManagementErrorResponse> createErrorResponse(Exception ex, HttpStatus status) {
+        UserManagementErrorResponse errorResponse = new UserManagementErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(TooManyEnrollmentsException.class)
+    public ResponseEntity<UserManagementErrorResponse> handleTooManyEnrollmentsException(TooManyEnrollmentsException ex) {
+        return createErrorResponse(ex, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
-        StringBuilder errorMessage = new StringBuilder();
-        e.getBindingResult().getFieldErrors().forEach(fieldError ->
-                errorMessage.append(fieldError.getField()).append(" - ")
-                        .append(fieldError.getDefaultMessage()).append("; "));
-        return ResponseEntity.badRequest().body(errorMessage.toString());
+    public ResponseEntity<UserManagementErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+        return createErrorResponse(ex, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<UserErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    public ResponseEntity<UserManagementErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return createErrorResponse(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ResourceNotCreatedException.class)
-    public ResponseEntity<UserErrorResponse> handleResourceNotCreatedException(ResourceNotCreatedException ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    public ResponseEntity<UserManagementErrorResponse> handleResourceNotCreatedException(ResourceNotCreatedException ex) {
+        return createErrorResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ResourceNotUpdatedException.class)
-    public ResponseEntity<UserErrorResponse> handleResourceNotUpdatedException(ResourceNotUpdatedException ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<UserManagementErrorResponse> handleResourceNotUpdatedException(ResourceNotUpdatedException ex) {
+        return createErrorResponse(ex, HttpStatus.NOT_MODIFIED);
     }
 
     @ExceptionHandler(ActivationException.class)
-    public ResponseEntity<UserErrorResponse> handleResourceNotFoundException(ActivationException ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<UserManagementErrorResponse> handleActivationException(ActivationException ex) {
+        return createErrorResponse(ex, HttpStatus.NOT_IMPLEMENTED);
     }
 
     @ExceptionHandler(EnrollmentAlreadyExistsException.class)
-    public ResponseEntity<UserErrorResponse> handleEnrollmentAlreadyExistsException(EnrollmentAlreadyExistsException ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    public ResponseEntity<UserManagementErrorResponse> handleEnrollmentAlreadyExistsException(EnrollmentAlreadyExistsException ex) {
+        return createErrorResponse(ex, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception ex) {
-        UserErrorResponse errorResponse = new UserErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<UserManagementErrorResponse> handleGenericException(Exception ex) {
+        return createErrorResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

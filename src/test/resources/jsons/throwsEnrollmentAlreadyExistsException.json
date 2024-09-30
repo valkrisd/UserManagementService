@@ -5,7 +5,7 @@
     "enrollmentDate": "2023-04-05",
     "completed": false,
     "courseDTO": {
-      "id": 2,
+      "id": 1,
       "title": "Java для начинающих",
       "description": "Этот курс знакомит с основами Java.",
       "author": "Иван Иванович",

@@ -5,6 +5,7 @@ import com.niiazov.usermanagement.dto.EnrollmentDTO;
 import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.exceptions.EnrollmentAlreadyExistsException;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
+import com.niiazov.usermanagement.exceptions.TooManyEnrollmentsException;
 import com.niiazov.usermanagement.gateways.CourseManagementGateway;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,8 @@ public class UserEnrollmentsService {
 
     private final CourseManagementGateway courseManagementGateway;
     private final UserRepository userRepository;
+
+    private final int MAX_ENROLLMENTS_PER_USER = 3;
 
     public Set<CourseDTO> getUserCourses(Integer userId) {
 
@@ -43,6 +46,10 @@ public class UserEnrollmentsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
         Set<EnrollmentDTO> enrollments = courseManagementGateway.getEnrollmentsByUserId(userId);
+
+        if (enrollments.size() >= MAX_ENROLLMENTS_PER_USER) {
+            throw new TooManyEnrollmentsException("User with id " + userId + " already enrolled in maximum of " + MAX_ENROLLMENTS_PER_USER + " courses");
+        }
 
         boolean isAlreadyEnrolled = enrollments.stream()
                 .anyMatch(enrollment -> Objects.equals(enrollment.getCourseDTO().getId(), courseId));
