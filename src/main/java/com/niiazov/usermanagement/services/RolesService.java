@@ -83,6 +83,7 @@ public class RolesService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
         boolean removed = user.getRoles().removeIf(role -> role.getId().equals(roleId));
+
         if (!removed) {
             throw new ResourceNotFoundException("This user doesn't have a role with id " + roleId);
         }

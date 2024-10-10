@@ -1,0 +1,36 @@
+[
+  {
+    "userId": 1,
+    "status": "ACTIVE",
+    "enrollmentDate": "2023-04-05",
+    "completed": false,
+    "courseDTO": {
+      "id": 1,
+      "title": "Java для начинающих",
+      "description": "Этот курс знакомит с основами Java.",
+      "author": "Иван Иванович",
+      "duration": 30,
+      "courseStatus": "ACTIVE",
+      "price": 15000.00,
+      "startDate": "2023-05-01",
+      "endDate": "2023-06-01"
+    }
+  },
+  {
+    "userId": 1,
+    "status": "ACTIVE",
+    "enrollmentDate": "2023-04-10",
+    "completed": false,
+    "courseDTO": {
+      "id": 2,
+      "title": "Spring Framework",
+      "description": "Углубленный курс по Spring Framework",
+      "author": "Петр Петрович",
+      "duration": 45,
+      "courseStatus": "ACTIVE",
+      "price": 20000.00,
+      "startDate": "2023-05-15",
+      "endDate": "2023-07-01"
+    }
+  }
+]

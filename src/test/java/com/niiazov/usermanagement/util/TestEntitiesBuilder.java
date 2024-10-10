@@ -1,18 +1,22 @@
 package com.niiazov.usermanagement.util;
 
-import com.niiazov.usermanagement.dto.RoleDTO;
-import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.dto.*;
 import com.niiazov.usermanagement.entities.Profile;
 import com.niiazov.usermanagement.entities.Role;
 import com.niiazov.usermanagement.entities.User;
+import com.niiazov.usermanagement.enums.CourseStatus;
+import com.niiazov.usermanagement.enums.EnrollmentStatus;
 import com.niiazov.usermanagement.enums.UserStatus;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
 public class TestEntitiesBuilder {
+
 
     public static User buildUser() {
 
@@ -68,6 +72,19 @@ public class TestEntitiesBuilder {
                 .build();
     }
 
+
+    public static ProfileDTO buildProfileDTO() {
+
+        return ProfileDTO.builder()
+                .fullName("John Doe")
+                .gender("Male")
+                .dateOfBirth(LocalDate.of(1990, 1, 1))
+                .address("123 Main St")
+                .phoneNumber("123-456-7890")
+                .avatarUrl("https://example.com/avatar.jpg")
+                .build();
+    }
+
     public static Set<Role> buildUserRoles() {
 
         Role role1 = Role.builder()
@@ -79,7 +96,7 @@ public class TestEntitiesBuilder {
                 .build();
 
         Role role2 = Role.builder()
-                .id(2)
+                .id(1)
                 .name("user")
                 .description("USER")
                 .createdAt(LocalDateTime.now())
@@ -103,6 +120,32 @@ public class TestEntitiesBuilder {
 
         return Set.of(roleDTO1, roleDTO2);
 
+    }
+
+    public static EnrollmentDTO buildEnrollmentDTO() {
+
+        return EnrollmentDTO.builder()
+                .userId(1)
+                .status(EnrollmentStatus.ACTIVE)
+                .enrollmentDate(LocalDate.now())
+                .completed(false)
+                .courseDTO(buildCourseDTO())
+                .build();
+}
+
+    public static CourseDTO buildCourseDTO() {
+
+        return CourseDTO.builder()
+                .id(1)
+                .title("Java")
+                .description("Java course")
+                .author("John Doe")
+                .duration(10)
+                .courseStatus(CourseStatus.ACTIVE)
+                .price(BigDecimal.valueOf(100.0))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plus(30, ChronoUnit.DAYS))
+                .build();
     }
 
 }

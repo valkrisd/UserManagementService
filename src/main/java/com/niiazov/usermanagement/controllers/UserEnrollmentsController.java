@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -25,29 +24,22 @@ public class UserEnrollmentsController {
 
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Set<CourseDTO>> getEnrollmentsByUser(@PathVariable Integer userId) {
-        log.info("Запрос записей для пользователя с id: {}", userId);
+        log.info("Request to get enrollments for user id: {}", userId);
         Set<CourseDTO> courseDTOS = userEnrollmentsService.getUserCourses(userId);
-        log.debug("Записи для пользователя с id: {} успешно получены", userId);
+        log.debug("Enrollments for user id: {} successfully found", userId);
 
         return ResponseEntity.ok(courseDTOS);
     }
 
     @PostMapping("/enrollments")
-    public ResponseEntity<HttpStatus> createEnrollment(@RequestBody @Valid EnrollmentDTO enrollmentDTO,
-                                                       BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createEnrollment(@RequestBody @Valid EnrollmentDTO enrollmentDTO) {
 
-        if (bindingResult.hasErrors()) {
-            log.error("Ошибка валидации при создании записи на курс для пользователя с ID: {}", enrollmentDTO.getUserId());
-            return ResponseEntity.badRequest().build();
-        }
-
-        log.info("Попытка создания записи на курс для пользователя с ID: {}", enrollmentDTO.getUserId());
+        log.info("Try to create enrollment for user with ID: {}", enrollmentDTO.getUserId());
         userEnrollmentsService.createEnrollment(enrollmentDTO);
-        log.info("Запись на курс для пользователя с ID: {} успешно создана", enrollmentDTO.getUserId());
-
+        log.info("Enrollment for user with ID: {} successfully created", enrollmentDTO.getUserId());
 
         kafkaNotificationsService.sendEnrollmentNotification(enrollmentDTO);
-        log.info("Уведомление о создании записи на курс для пользователя с ID: {} отправлено", enrollmentDTO.getUserId());
+        log.info("Enrollment notification for user with ID: {} successfully sent", enrollmentDTO.getUserId());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -55,9 +47,9 @@ public class UserEnrollmentsController {
     @DeleteMapping("/{userId}/enrollments/{enrollmentId}")
     public ResponseEntity<HttpStatus> deleteEnrollment(@PathVariable Integer userId,
                                                        @PathVariable Integer enrollmentId) {
-        log.info("Попытка удаления записи на курс для пользователя с ID: {}", userId);
+        log.info("Try to delete enrollment for user with ID: {}", userId);
         userEnrollmentsService.deleteEnrollment(userId, enrollmentId);
-        log.info("Запись на курс для пользователя с ID: {} успешно удалена", userId);
+        log.info("Enrollment for user with ID: {} successfully deleted", userId);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

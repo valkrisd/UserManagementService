@@ -12,25 +12,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Slf4j
-
 public class UserActivationTokensController {
 
     private final UserActivationTokensService userActivationTokensService;
 
     @PostMapping("/{userId}/activation-token")
     public ResponseEntity<HttpStatus> generateUserActivationToken(@PathVariable Integer userId) {
-        log.info("Попытка генерации токена активации для пользователя с ID: {}", userId);
+        log.info("Try to generate activation token for user with id: {}", userId);
         userActivationTokensService.generateUserActivationToken(userId);
-        log.info("Токен активации успешно сгенерирован для пользователя с ID: {}", userId);
+        log.info("Activation token successfully generated for user with id: {}", userId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/activate")
     public ResponseEntity<HttpStatus> activateUser(@RequestBody UserActivationTokenDTO userActivationTokenDTO) {
-        log.info("Попытка активации пользователя с токеном: {}", userActivationTokenDTO.getToken());
+        log.info("Try to activate user with token: {}", userActivationTokenDTO.getToken());
         userActivationTokensService.activateUser(userActivationTokenDTO);
-        log.info("Пользователь успешно активирован");
+        log.info("User successfully activated with token: {}", userActivationTokenDTO.getToken());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

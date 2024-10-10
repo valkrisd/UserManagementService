@@ -1,0 +1,8 @@
+{
+  "fullName": "John Doe",
+  "gender": "Male",
+  "dateOfBirth": "1990-01-01",
+  "address": "123 Main St",
+  "phoneNumber": "123-456-7890",
+  "avatarUrl": "https://example.com/avatar.jpg"
+}
