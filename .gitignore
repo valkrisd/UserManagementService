@@ -32,5 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-### Config file ###
+### Config files ###
 application.yml
+application-test.yml
+.env

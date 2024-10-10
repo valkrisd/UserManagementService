@@ -1,12 +1,12 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.RoleDTO;
+import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.mappers.RoleMapper;
-import com.niiazov.usermanagement.models.Role;
-import com.niiazov.usermanagement.models.User;
+import com.niiazov.usermanagement.entities.Role;
+import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.repositories.RoleRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
-import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +83,7 @@ public class RolesService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
         boolean removed = user.getRoles().removeIf(role -> role.getId().equals(roleId));
+
         if (!removed) {
             throw new ResourceNotFoundException("This user doesn't have a role with id " + roleId);
         }

@@ -1,7 +1,7 @@
 package com.niiazov.usermanagement.mappers;
 
 import com.niiazov.usermanagement.dto.ProfileDTO;
-import com.niiazov.usermanagement.models.Profile;
+import com.niiazov.usermanagement.entities.Profile;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

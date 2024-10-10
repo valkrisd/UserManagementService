@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-@FeignClient(name = "course-management", url = "${course-management.url}")
+@FeignClient(name = "course-management", url = "${course_management.url}")
 public interface CourseManagementGateway {
 
     @GetMapping("/enrollments/user/{userId}")

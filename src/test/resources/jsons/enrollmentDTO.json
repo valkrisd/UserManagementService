@@ -1,0 +1,17 @@
+{
+  "userId": 1,
+  "status": "ACTIVE",
+  "enrollmentDate": "2023-04-05",
+  "completed": false,
+  "courseDTO": {
+    "id": 1,
+    "title": "Java для начинающих",
+    "description": "Этот курс знакомит с основами Java.",
+    "author": "Иван Иванович",
+    "duration": 30,
+    "courseStatus": "PENDING",
+    "price": 15000.00,
+    "startDate": "2023-05-01",
+    "endDate": "2023-06-01"
+  }
+}

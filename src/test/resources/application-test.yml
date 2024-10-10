@@ -1,0 +1,27 @@
+spring:
+  kafka:
+    topic:
+      name: course-notifications
+    bootstrap-servers: localhost:9093
+    consumer:
+      group-id: course-management
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+  config:
+    activate:
+      on-profile: test
+  flyway:
+    enabled: false
+  jpa:
+    properties:
+      show-sql: true
+      hibernate:
+        hbm2ddl:
+          auto: create-drop
+
+course_management:
+  url: http://localhost:8080
+
+
+

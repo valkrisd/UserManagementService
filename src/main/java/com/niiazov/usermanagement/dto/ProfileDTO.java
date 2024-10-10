@@ -1,11 +1,14 @@
 package com.niiazov.usermanagement.dto;
 
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProfileDTO {
 
     @Size(max = 255, message = "Full name must be less than 255 characters")
@@ -13,6 +16,7 @@ public class ProfileDTO {
 
     @Size(max = 10, message = "Gender must be less than 10 characters")
     private String gender;
+
 
     private LocalDate dateOfBirth;
 
