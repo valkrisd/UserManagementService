@@ -38,22 +38,22 @@ import static org.mockito.Mockito.*;
 @DirtiesContext
 public class UserEnrollmentsServiceIntegrationTests {
 
+    @Container
+    private static final PostgreSQLContainer<?> postgreSQLContainer =
+            new PostgreSQLContainer<>("postgres:13");
     @MockBean
     private CourseManagementGateway courseManagementGateway;
     @MockBean
     private UserRepository userRepository;
-
     @Autowired
     private UserEnrollmentsService userEnrollmentsService;
-
     @Autowired
     private JacksonTester<EnrollmentDTO> jsonEnrollmentDTO;
     @Autowired
     private JacksonTester<Set<EnrollmentDTO>> jsonEnrollmentDTOSet;
-
-    @Container
-    private static final PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>("postgres:13");
+    private EnrollmentDTO enrollmentDTO;
+    private Set<EnrollmentDTO> enrollmentDTOs;
+    private User user;
 
     @DynamicPropertySource
     static void properties(DynamicPropertyRegistry registry) {
@@ -61,10 +61,6 @@ public class UserEnrollmentsServiceIntegrationTests {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
-
-    private EnrollmentDTO enrollmentDTO;
-    private Set<EnrollmentDTO> enrollmentDTOs;
-    private User user;
 
     @BeforeEach
     void setUp() throws IOException {

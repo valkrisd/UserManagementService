@@ -1,11 +1,11 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.UserActivationTokenDTO;
+import com.niiazov.usermanagement.entities.User;
+import com.niiazov.usermanagement.entities.UserActivationToken;
 import com.niiazov.usermanagement.enums.UserStatus;
 import com.niiazov.usermanagement.exceptions.ActivationException;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
-import com.niiazov.usermanagement.entities.User;
-import com.niiazov.usermanagement.entities.UserActivationToken;
 import com.niiazov.usermanagement.repositories.UserActivationTokenRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +24,14 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class UserActivationTokensService {
-    private final UserActivationTokenRepository userActivationTokensRepository;
-    private final UserRepository userRepository;
-    private final JavaMailSender javaMailSender;
-
-    @Value("${spring.mail.from}")
-    private String EMAIL_FROM;
     private static final String EMAIL_SUBJECT = "Активация аккаунта";
     private static final String EMAIL_TEXT = "Ваш код активации: ";
     private static final int TOKEN_VALIDITY_IN_MINUTES = 60;
+    private final UserActivationTokenRepository userActivationTokensRepository;
+    private final UserRepository userRepository;
+    private final JavaMailSender javaMailSender;
+    @Value("${spring.mail.from}")
+    private String EMAIL_FROM;
 
     @Transactional
     public void generateUserActivationToken(Integer userId) {
@@ -40,16 +39,20 @@ public class UserActivationTokensService {
         User userToUpdate = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));
 
-        log.info("Попытка генерации токена активации для пользователя с ID: {}", userId);
+        if (userToUpdate.getUserStatus().equals(UserStatus.ACTIVE)) {
+            throw new ActivationException("User with id " + userId + " is already activated");
+        }
+
+        log.info("Try to create activation token for user with id: {}", userId);
         UserActivationToken activationToken = createActivationToken(userToUpdate);
-        log.info("Токен активации для пользователя с ID: {} успешно создан", userId);
+        log.info("Activation token successfully created for user with id: {}", userId);
 
         userToUpdate.getActivationTokens().add(activationToken);
         userActivationTokensRepository.save(activationToken);
 
-        log.info("Попытка отправки письма активации для пользователя с ID: {}", userId);
+        log.info("Try to send activation email for user with id: {}", userId);
         sendActivationEmail(userToUpdate, activationToken.getToken());
-        log.info("Письмо активации для пользователя с ID: {} успешно отправлено", userId);
+        log.info("Activation email successfully sent for user with id: {}", userId);
 
     }
 
@@ -77,8 +80,9 @@ public class UserActivationTokensService {
 
     @Transactional
     public void activateUser(UserActivationTokenDTO token) {
-        if (token.getToken() == null) {
-            throw new ActivationException("Токен не может быть пустым");
+
+        if (token.getToken().isEmpty()) {
+            throw new ActivationException("Token is empty");
         }
 
         Optional<UserActivationToken> activationTokenOpt =
@@ -86,12 +90,12 @@ public class UserActivationTokensService {
 
         if (activationTokenOpt.isEmpty() ||
                 activationTokenOpt.get().getExpirationTime().isBefore(LocalDateTime.now())) {
-            throw new ActivationException("Недействительный токен активации");
+            throw new ActivationException("Token is invalid");
         }
 
         UserActivationToken activationToken = activationTokenOpt.get();
         User user = userRepository.findById(activationToken.getUser().getId())
-                .orElseThrow(() -> new ActivationException("Пользователь не найден"));
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + activationToken.getUser().getId() + " not found"));
 
         user.setUserStatus(UserStatus.ACTIVE);
         user.setUpdatedAt(LocalDateTime.now());

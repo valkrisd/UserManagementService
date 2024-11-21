@@ -1,9 +1,9 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.ProfileDTO;
+import com.niiazov.usermanagement.entities.Profile;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.mappers.ProfileMapper;
-import com.niiazov.usermanagement.entities.Profile;
 import com.niiazov.usermanagement.repositories.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

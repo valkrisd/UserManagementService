@@ -131,7 +131,7 @@ public class TestEntitiesBuilder {
                 .completed(false)
                 .courseDTO(buildCourseDTO())
                 .build();
-}
+    }
 
     public static CourseDTO buildCourseDTO() {
 

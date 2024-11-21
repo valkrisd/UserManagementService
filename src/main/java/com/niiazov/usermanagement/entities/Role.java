@@ -37,6 +37,7 @@ public class Role {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
 }

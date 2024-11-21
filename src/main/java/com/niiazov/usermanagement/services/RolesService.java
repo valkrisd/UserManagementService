@@ -1,10 +1,10 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.RoleDTO;
-import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
-import com.niiazov.usermanagement.mappers.RoleMapper;
 import com.niiazov.usermanagement.entities.Role;
 import com.niiazov.usermanagement.entities.User;
+import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
+import com.niiazov.usermanagement.mappers.RoleMapper;
 import com.niiazov.usermanagement.repositories.RoleRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,7 @@ public class RolesService {
         userRepository.save(userToUpdate);
     }
 
-    public Set<RoleDTO> getUserRoles(Integer userId) {
+    public Set<RoleDTO> getUserRoleDTOs(Integer userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + userId + " not found"));

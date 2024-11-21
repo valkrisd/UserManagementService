@@ -1,3 +1,4 @@
+name: course-project
 services:
 
   user-management-app:
@@ -30,8 +31,11 @@ services:
       - "8081:8080"
     depends_on:
       - course_db
+      - redis
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://course_db:5432/${POSTGRES_COURSE_DB}
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
 
   course_db:
     image: postgres:13
@@ -43,6 +47,11 @@ services:
       - course_db:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6379"
 
   notification-service-app:
     build: /Users/vladislav/IdeaProjects/NotificationService

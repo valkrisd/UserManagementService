@@ -24,14 +24,12 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ProfilesControllerUnitTests {
 
-    @Mock
-    private ProfilesService profilesService;
-
-    @InjectMocks
-    private ProfilesController profilesController;
-
     private static Integer userId;
     private static ProfileDTO profileDTO;
+    @Mock
+    private ProfilesService profilesService;
+    @InjectMocks
+    private ProfilesController profilesController;
 
     @BeforeEach
     public void setup() {

@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/users")
-@RequiredArgsConstructor
 @Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserActivationTokensController {
 
     private final UserActivationTokensService userActivationTokensService;
@@ -27,9 +27,9 @@ public class UserActivationTokensController {
 
     @PostMapping("/activate")
     public ResponseEntity<HttpStatus> activateUser(@RequestBody UserActivationTokenDTO userActivationTokenDTO) {
-        log.info("Try to activate user with token: {}", userActivationTokenDTO.getToken());
+        log.info("Try to activate user");
         userActivationTokensService.activateUser(userActivationTokenDTO);
-        log.info("User successfully activated with token: {}", userActivationTokenDTO.getToken());
+        log.info("User successfully activated");
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

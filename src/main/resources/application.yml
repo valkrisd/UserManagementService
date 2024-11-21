@@ -3,14 +3,21 @@
 # port: 8080
 
 course_management:
-  url: ${COURSE_MANAGEMENT_URL:http://localhost:8081}
+  url: http://localhost:8081
 
 spring:
   profiles:
     default: prod
+  security:
+    user:
+      name: user-management-service
+      password: pavs2swv78ord12fsKL
+      roles:
+        - USER
+        - ADMIN
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5434/UserDB
+    url: jdbc:postgresql://user_db:5434/UserDB
     username: postgres
     password: 307t0HrY
   flyway:

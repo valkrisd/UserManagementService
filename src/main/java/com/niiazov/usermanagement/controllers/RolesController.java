@@ -13,8 +13,8 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class RolesController {
     private final RolesService rolesService;
 
@@ -30,7 +30,7 @@ public class RolesController {
     @GetMapping("/{userId}/roles")
     public ResponseEntity<Set<RoleDTO>> getUserRoles(@PathVariable Integer userId) {
         log.info("Request to get roles for user id: {}", userId);
-        Set<RoleDTO> roleDTOs = rolesService.getUserRoles(userId);
+        Set<RoleDTO> roleDTOs = rolesService.getUserRoleDTOs(userId);
         log.debug("Roles for user id: {} successfully found", userId);
         return ResponseEntity.ok(roleDTOs);
     }

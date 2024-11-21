@@ -15,10 +15,9 @@ import java.util.Map;
 @Profile("prod")
 public class KafkaTopicConfig {
 
+    public static final String TOPIC_NAME = "course-notifications";
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
-
-    public static final String TOPIC_NAME = "course-notifications";
 
     @Bean
     public KafkaAdmin kafkaAdmin() {

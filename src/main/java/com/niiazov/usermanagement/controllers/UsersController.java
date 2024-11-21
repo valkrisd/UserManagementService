@@ -1,6 +1,8 @@
 package com.niiazov.usermanagement.controllers;
 
+import com.niiazov.usermanagement.dto.AuthResponseDTO;
 import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.services.AuthenticationService;
 import com.niiazov.usermanagement.services.UsersService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,39 +11,39 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @Slf4j
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UsersController {
     private final UsersService usersService;
+    private final AuthenticationService authenticationService;
 
-    // TODO: Add password encryption later
     @PostMapping("/register")
     public ResponseEntity<HttpStatus> register(@RequestBody @Valid UserDTO userDTO) {
 
-        log.info("Registration user: {}", userDTO);
+        log.info("Registration user: {}", userDTO.getUsername());
         usersService.saveUser(userDTO);
-        log.info("User successfully registered: {}", userDTO);
+        log.info("User successfully registered: {}", userDTO.getUsername());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    // TODO: Implement API with Spring Security later
-    @PostMapping("/authenticate")
-    public String authenticate(@RequestBody @Valid UserDTO userDTO) {
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> authenticate(@RequestBody @Valid UserDTO userDTO) {
 
-        log.info("Authentication user: {}", userDTO);
-        return "Test response";
+        log.info("Authentication user: {}", userDTO.getUsername());
+        String token = authenticationService.authenticate(userDTO);
+        log.info("User successfully authenticated: {}", userDTO.getUsername());
+
+        return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
-    // TODO: Implement API with Spring Security later
     @GetMapping("/me")
-    public String me(@RequestBody @Valid UserDTO userDTO) {
+    public UserDTO me() {
 
-        log.info("Get me: {}", userDTO);
-        return "Test response";
+        log.info("Getting me..");
+        return usersService.getUserDTO(authenticationService.getCurrentUserId());
     }
 
     @GetMapping("/{userId}")
@@ -69,6 +71,7 @@ public class UsersController {
         log.info("Trying to delete user with id: {}", userId);
         usersService.deleteUser(userId);
         log.info("User with id: {} successfully deleted", userId);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
