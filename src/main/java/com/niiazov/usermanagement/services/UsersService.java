@@ -1,6 +1,7 @@
 package com.niiazov.usermanagement.services;
 
 import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.dto.UserResponse;
 import com.niiazov.usermanagement.entities.Role;
 import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.enums.UserStatus;
@@ -61,6 +62,15 @@ public class UsersService {
         } else throw new ResourceNotFoundException("User with id " + userId + " not found");
     }
 
+    public UserResponse getUserResponse(Integer userId) {
+
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            return userMapper.userToUserResponse(user.get());
+        } else throw new ResourceNotFoundException("User with id " + userId + " not found");
+    }
+
     @Transactional
     public void updateUser(Integer userId, UserDTO userDTO) {
 
@@ -82,4 +92,5 @@ public class UsersService {
 
         userRepository.delete(userToDelete);
     }
+
 }

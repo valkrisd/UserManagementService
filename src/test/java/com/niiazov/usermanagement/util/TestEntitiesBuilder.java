@@ -89,16 +89,16 @@ public class TestEntitiesBuilder {
 
         Role role1 = Role.builder()
                 .id(1)
-                .name("admin")
-                .description("ADMIN")
+                .name("ADMIN")
+                .description("ADMIN TEST ROLE")
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
         Role role2 = Role.builder()
                 .id(1)
-                .name("user")
-                .description("USER")
+                .name("USER")
+                .description("USER TEST ROLE")
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -109,13 +109,13 @@ public class TestEntitiesBuilder {
     public static Set<RoleDTO> buildUserRoleDTOs() {
 
         RoleDTO roleDTO1 = RoleDTO.builder()
-                .name("admin")
-                .description("ADMIN")
+                .name("ADMIN")
+                .description("ADMIN TEST ROLE")
                 .build();
 
         RoleDTO roleDTO2 = RoleDTO.builder()
-                .name("user")
-                .description("USER")
+                .name("USER")
+                .description("USER TEST ROLE")
                 .build();
 
         return Set.of(roleDTO1, roleDTO2);

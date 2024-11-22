@@ -20,7 +20,6 @@ public class ProfileRepositoryTests {
 
     @Autowired
     private ProfileRepository profileRepository;
-
     @Autowired
     private UserRepository userRepository;
 

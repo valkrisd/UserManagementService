@@ -2,6 +2,7 @@ package com.niiazov.usermanagement.controllers;
 
 import com.niiazov.usermanagement.dto.AuthResponseDTO;
 import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.dto.UserResponse;
 import com.niiazov.usermanagement.services.AuthenticationService;
 import com.niiazov.usermanagement.services.UsersService;
 import jakarta.validation.Valid;
@@ -40,20 +41,23 @@ public class UsersController {
     }
 
     @GetMapping("/me")
-    public UserDTO me() {
+    public ResponseEntity<UserResponse> me() {
 
         log.info("Getting me..");
-        return usersService.getUserDTO(authenticationService.getCurrentUserId());
+        UserResponse userResponse = usersService.getUserResponse(authenticationService.getCurrentUserId());
+        log.info("Me successfully found");
+
+        return ResponseEntity.ok(userResponse);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable Integer userId) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable Integer userId) {
 
         log.info("Searching user with id: {}", userId);
-        UserDTO userDTO = usersService.getUserDTO(userId);
+        UserResponse userResponse = usersService.getUserResponse(userId);
         log.info("User with id: {} successfully found", userId);
 
-        return ResponseEntity.ok(userDTO);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PutMapping("/{userId}")

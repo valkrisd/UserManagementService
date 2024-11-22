@@ -4,6 +4,7 @@ import com.niiazov.usermanagement.dto.UserDTO;
 import com.niiazov.usermanagement.entities.User;
 import com.niiazov.usermanagement.exceptions.ResourceNotFoundException;
 import com.niiazov.usermanagement.mappers.UserMapper;
+import com.niiazov.usermanagement.repositories.RoleRepository;
 import com.niiazov.usermanagement.repositories.UserRepository;
 import com.niiazov.usermanagement.util.TestEntitiesBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -29,6 +31,10 @@ public class UsersServiceTests {
     private UserRepository userRepository;
     @Mock
     private UserMapper userMapper;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private RoleRepository roleRepository;
 
     @InjectMocks
     private UsersService usersService;
@@ -56,6 +62,8 @@ public class UsersServiceTests {
 
         when(userMapper.userDTOToUser(userDTO)).thenReturn(user);
         when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
+        when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
+        when(roleRepository.findByName(Mockito.any(String.class))).thenReturn(user.getRoles().stream().findFirst());
 
         usersService.saveUser(userDTO);
 

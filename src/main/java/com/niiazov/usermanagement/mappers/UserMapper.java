@@ -1,6 +1,7 @@
 package com.niiazov.usermanagement.mappers;
 
 import com.niiazov.usermanagement.dto.UserDTO;
+import com.niiazov.usermanagement.dto.UserResponse;
 import com.niiazov.usermanagement.entities.User;
 import org.mapstruct.Mapper;
 
@@ -11,5 +12,6 @@ public interface UserMapper {
 
     User userDTOToUser(UserDTO userDTO);
 
+    UserResponse userToUserResponse(User user);
 
 }
