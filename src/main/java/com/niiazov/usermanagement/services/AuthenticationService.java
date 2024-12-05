@@ -23,7 +23,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
+
         return jwtGenerator.generateToken(authentication);
     }
 
